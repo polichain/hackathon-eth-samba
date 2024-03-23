@@ -58,7 +58,7 @@ contract Rent {
 		uint _definedTime
 	) external {
 		// Ideally, include access control here (e.g., only the admin or locator can create a new contract)
-
+		next_index++;
 		Contract storage newContract = rentContracts[next_index];
 		newContract.renter = _renter;
 		newContract.locator = payable(msg.sender); // Assuming msg.sender is the locator
@@ -68,7 +68,6 @@ contract Rent {
 		newContract.timeRemaining = _definedTime;
 		newContract.state = ContractState.StandBy;
 
-		next_index++;
 	}
 
 	function payRent(uint index) public payable noReentrancy {
