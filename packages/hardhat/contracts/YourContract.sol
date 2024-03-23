@@ -1,87 +1,99 @@
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
-// Useful for debugging. Remove when deploying to a live network.
-import "hardhat/console.sol";
-
-// Use openzeppelin to inherit battle-tested implementations (ERC20, ERC721, etc)
-// import "@openzeppelin/contracts/access/Ownable.sol";
-
-/**
- * A smart contract that allows changing a state variable of the contract and tracking the changes
- * It also allows the owner to withdraw the Ether in the contract
- * @author BuidlGuidl
- */
 contract YourContract {
-	// State Variables
-	address public immutable owner;
-	string public greeting = "Building Unstoppable Apps!!!";
-	bool public premium = false;
-	uint256 public totalCounter = 0;
-	mapping(address => uint) public userGreetingCounter;
+    uint public timeRemaining; // Duration of the rental agreement in months
+    uint public rentAmount; // Monthly rent amount in wei
+    uint public insuranceAmount; // Insurance amount in wei
+    address payable public renter; // Address of the renter
+    address payable public locator; // Address of the entity receiving the rent
+    address payable public adminWallet; // Address of the administrative wallet handling insurance
+    bool isInsurance = false; // This boolean shows the stats of the Insurence, if is it payed or not
 
-	// Events: a way to emit log statements from smart contract that can be listened to by external parties
-	event GreetingChange(
-		address indexed greetingSetter,
-		string newGreeting,
-		bool premium,
-		uint256 value
-	);
+    enum ContractState { Active, Aborted, Completed }
+    ContractState public state;
 
-	// Constructor: Called once on contract deployment
-	// Check packages/hardhat/deploy/00_deploy_your_contract.ts
-	constructor(address _owner) {
-		owner = _owner;
-	}
+    event RentPaid(address indexed payer, uint amount);
+    event ContractAborted(address indexed sender);
+    event ContractCompleted();
 
-	// Modifier: used to define a set of rules that must be met before or after a function is executed
-	// Check the withdraw() function
-	modifier isOwner() {
-		// msg.sender: predefined variable that represents address of the account that called the current function
-		require(msg.sender == owner, "Not the Owner");
-		_;
-	}
+    constructor(
+        uint _timeRemaining,
+        uint _rentAmount,
+        uint _insuranceAmount,
+        address payable _renter,
+        address payable _locator,
+        address payable _adminWallet
+    ) {
+        timeRemaining = _timeRemaining;
+        rentAmount = _rentAmount;
+        insuranceAmount = _insuranceAmount;
+        renter = _renter;
+        locator = _locator;
+        adminWallet = _adminWallet;
+        state = ContractState.Active;
+    }
 
-	/**
-	 * Function that allows anyone to change the state variable "greeting" of the contract and increase the counters
-	 *
-	 * @param _newGreeting (string memory) - new greeting to save on the contract
-	 */
-	function setGreeting(string memory _newGreeting) public payable {
-		// Print data to the hardhat chain console. Remove when deploying to a live network.
-		console.log(
-			"Setting new greeting '%s' from %s",
-			_newGreeting,
-			msg.sender
-		);
+    modifier onlyRenter() {
+        require(msg.sender == renter, "Only the renter can perform this action");
+        _;
+    }
 
-		// Change state variables
-		greeting = _newGreeting;
-		totalCounter += 1;
-		userGreetingCounter[msg.sender] += 1;
+    modifier onlyActiveContract() {
+        require(state == ContractState.Active, "Contract is not active");
+        _;
+    }
 
-		// msg.value: built-in global variable that represents the amount of ether sent with the transaction
-		if (msg.value > 0) {
-			premium = true;
-		} else {
-			premium = false;
-		}
+    function payRent() external payable onlyRenter onlyActiveContract {
+        require(isInsurance, "Impossible to pay rents before the insurance");
+        require(msg.value >= (rentAmount + insuranceAmount)*10**18, "Insufficient payment amount");
 
-		// emit: keyword used to trigger an event
-		emit GreetingChange(msg.sender, _newGreeting, msg.value > 0, msg.value);
-	}
+        uint excessAmount = msg.value - (rentAmount + insuranceAmount)*10**18;
+        if (excessAmount > 0) {
+            payable(msg.sender).transfer(excessAmount); // Refund excess amount
+        }
 
-	/**
-	 * Function that allows the owner to withdraw all the Ether in the contract
-	 * The function can only be called by the owner of the contract as defined by the isOwner modifier
-	 */
-	function withdraw() public isOwner {
-		(bool success, ) = owner.call{ value: address(this).balance }("");
-		require(success, "Failed to send Ether");
-	}
+        locator.transfer(rentAmount);
 
-	/**
-	 * Function that allows the contract to receive ETH
-	 */
-	receive() external payable {}
+        timeRemaining--;
+
+        emit RentPaid(msg.sender, msg.value);
+
+        if (timeRemaining == 0) {
+            state = ContractState.Completed;
+            emit ContractCompleted();
+        }
+    }
+
+
+    function abortContract() public onlyActiveContract {
+        require(!isInsurance, "Get back the Insurance before end the contract");
+        require(msg.sender == renter || msg.sender == locator, "Only the renter or locator can abort the contract");
+
+        state = ContractState.Aborted;
+        emit ContractAborted(msg.sender);
+    }
+
+    function payInsurance() public payable {
+        require(state == ContractState.Active, "Contract is not active");
+        require(msg.sender == renter && msg.value >= insuranceAmount, "Only the renter can do this operation and the insurance must be higher");
+
+        uint  excessAmount = msg.value -(insuranceAmount)*10**18;
+
+        if(excessAmount > 0){
+            payable(msg.sender).transfer(excessAmount);
+        }
+        adminWallet.transfer(insuranceAmount*10**18);
+
+        isInsurance = true;
+    }
+
+    function receiveInsurance() public payable {
+        require(msg.sender == adminWallet, "Only the admin can do this operation");
+        require(isInsurance, "There isen't a Insurance to recive");
+
+        renter.transfer(insuranceAmount*10**18);
+
+        isInsurance = false;
+    }
 }
