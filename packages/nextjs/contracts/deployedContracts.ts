@@ -6,19 +6,27 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
   31337: {
-    YourContract: {
+    Rent: {
       address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
       abi: [
         {
+          anonymous: false,
           inputs: [
             {
+              indexed: true,
               internalType: "address",
-              name: "_owner",
+              name: "sender",
               type: "address",
             },
           ],
-          stateMutability: "nonpayable",
-          type: "constructor",
+          name: "ContractAborted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [],
+          name: "ContractCompleted",
+          type: "event",
         },
         {
           anonymous: false,
@@ -26,86 +34,60 @@ const deployedContracts = {
             {
               indexed: true,
               internalType: "address",
-              name: "greetingSetter",
+              name: "payer",
               type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "newGreeting",
-              type: "string",
-            },
-            {
-              indexed: false,
-              internalType: "bool",
-              name: "premium",
-              type: "bool",
             },
             {
               indexed: false,
               internalType: "uint256",
-              name: "value",
+              name: "amount",
               type: "uint256",
             },
-          ],
-          name: "GreetingChange",
-          type: "event",
-        },
-        {
-          inputs: [],
-          name: "greeting",
-          outputs: [
             {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "owner",
-          outputs: [
-            {
+              indexed: true,
               internalType: "address",
-              name: "",
+              name: "receiver",
               type: "address",
             },
           ],
-          stateMutability: "view",
-          type: "function",
+          name: "InsurancePaid",
+          type: "event",
         },
         {
-          inputs: [],
-          name: "premium",
-          outputs: [
+          anonymous: false,
+          inputs: [
             {
-              internalType: "bool",
-              name: "",
-              type: "bool",
+              indexed: true,
+              internalType: "address",
+              name: "payer",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "amount",
+              type: "uint256",
             },
           ],
-          stateMutability: "view",
-          type: "function",
+          name: "RentPaid",
+          type: "event",
         },
         {
           inputs: [
             {
-              internalType: "string",
-              name: "_newGreeting",
-              type: "string",
+              internalType: "uint256",
+              name: "index",
+              type: "uint256",
             },
           ],
-          name: "setGreeting",
+          name: "abortContract",
           outputs: [],
           stateMutability: "payable",
           type: "function",
         },
         {
           inputs: [],
-          name: "totalCounter",
+          name: "contractBalance",
           outputs: [
             {
               internalType: "uint256",
@@ -119,32 +101,131 @@ const deployedContracts = {
         {
           inputs: [
             {
-              internalType: "address",
-              name: "",
+              internalType: "address payable",
+              name: "_renter",
               type: "address",
             },
-          ],
-          name: "userGreetingCounter",
-          outputs: [
             {
               internalType: "uint256",
-              name: "",
+              name: "_insuranceAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_rentAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_definedTime",
               type: "uint256",
             },
           ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "withdraw",
+          name: "createNewContract",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
         },
         {
+          inputs: [],
+          name: "next_index",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "index",
+              type: "uint256",
+            },
+          ],
+          name: "payInsurance",
+          outputs: [],
           stateMutability: "payable",
-          type: "receive",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "index",
+              type: "uint256",
+            },
+          ],
+          name: "payRent",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "rentContracts",
+          outputs: [
+            {
+              internalType: "address payable",
+              name: "renter",
+              type: "address",
+            },
+            {
+              internalType: "address payable",
+              name: "locator",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "insuranceAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "rentAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "definedTime",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "timeRemaining",
+              type: "uint256",
+            },
+            {
+              internalType: "enum Rent.ContractState",
+              name: "state",
+              type: "uint8",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "state",
+          outputs: [
+            {
+              internalType: "enum Rent.ContractState",
+              name: "",
+              type: "uint8",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
         },
       ],
       inheritedFunctions: {},
