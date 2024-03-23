@@ -1,19 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
-contract YourContract {
+contract Rent {
     uint public timeRemaining; // Duration of the rental agreement in months
     uint public rentAmount; // Monthly rent amount in wei
     uint public insuranceAmount; // Insurance amount in wei
+    //uint public fine; //amount of the insurance that must be taken when the contract is aborted or something goes wrong
+    address public admin; // Address of the admin
     address payable public renter; // Address of the renter
     address payable public locator; // Address of the entity receiving the rent
-    address payable public adminWallet; // Address of the administrative wallet handling insurance
-    bool isInsurance = false; // This boolean shows the stats of the Insurence, if is it payed or not
 
-    enum ContractState { Active, Aborted, Completed }
+    enum ContractState { StandBy,Active, Aborted, Completed }
     ContractState public state;
 
     event RentPaid(address indexed payer, uint amount);
+    event InsurancePaid(address indexed payer,uint amount,address indexed receiver);
     event ContractAborted(address indexed sender);
     event ContractCompleted();
 
@@ -21,17 +22,18 @@ contract YourContract {
         uint _timeRemaining,
         uint _rentAmount,
         uint _insuranceAmount,
+       // uint _fine,
+        address _admin,
         address payable _renter,
-        address payable _locator,
-        address payable _adminWallet
+        address payable _locator
     ) {
         timeRemaining = _timeRemaining;
         rentAmount = _rentAmount;
         insuranceAmount = _insuranceAmount;
         renter = _renter;
         locator = _locator;
-        adminWallet = _adminWallet;
-        state = ContractState.Active;
+        admin = _admin;
+        //fine = _fine;
     }
 
     modifier onlyRenter() {
@@ -45,55 +47,59 @@ contract YourContract {
     }
 
     function payRent() external payable onlyRenter onlyActiveContract {
-        require(isInsurance, "Impossible to pay rents before the insurance");
-        require(msg.value >= (rentAmount + insuranceAmount)*10**18, "Insufficient payment amount");
+       // require(msg.value >= (rentAmount), "Insufficient payment amount");
+        //uint excessAmount = msg.value - (rentAmount + insuranceAmount)*10**18;
+        //if (excessAmount > 0) {
+            //payable(msg.sender).transfer(excessAmount); // Refund excess amount
+       // }
 
-        uint excessAmount = msg.value - (rentAmount + insuranceAmount)*10**18;
-        if (excessAmount > 0) {
-            payable(msg.sender).transfer(excessAmount); // Refund excess amount
-        }
-
-        locator.transfer(rentAmount);
+        locator.transfer(msg.value);
 
         timeRemaining--;
 
-        emit RentPaid(msg.sender, msg.value);
-
         if (timeRemaining == 0) {
             state = ContractState.Completed;
+            receiveInsurance();
             emit ContractCompleted();
         }
+        emit RentPaid(msg.sender, msg.value);
     }
 
-
-    function abortContract() public onlyActiveContract {
-        require(!isInsurance, "Get back the Insurance before end the contract");
+    function abortContract() public payable onlyActiveContract {
         require(msg.sender == renter || msg.sender == locator, "Only the renter or locator can abort the contract");
 
+        
+            (bool success, ) = renter.call{value: insuranceAmount}("");
+            require(success, "transfer failed");
+        
         state = ContractState.Aborted;
         emit ContractAborted(msg.sender);
     }
 
     function payInsurance() public payable {
-        require(state == ContractState.Active, "Contract is not active");
+        require(state == ContractState.StandBy, "Contract is in stand by");
         require(msg.sender == renter && msg.value >= insuranceAmount, "Only the renter can do this operation and the insurance must be higher");
 
-        uint  excessAmount = msg.value -(insuranceAmount)*10**18;
+        //uint  excessAmount = msg.value -(insuranceAmount)*10**18;
 
-        if(excessAmount > 0){
-            payable(msg.sender).transfer(excessAmount);
-        }
-        adminWallet.transfer(insuranceAmount*10**18);
+       // if(excessAmount > 0){
+           // payable(msg.sender).transfer(excessAmount);
+       // }
 
-        isInsurance = true;
+        state = ContractState.Active;
+        emit InsurancePaid(msg.sender, msg.value, address(this));
     }
 
-    function receiveInsurance() public payable {
-        require(msg.sender == adminWallet, "Only the admin can do this operation");
-        require(isInsurance, "There isen't a Insurance to recive");
+    function receiveInsurance() internal {
 
-        renter.transfer(insuranceAmount*10**18);
+         (bool success, ) = renter.call{value: insuranceAmount}("");
+          require(success, "transfer failed");
 
-        isInsurance = false;
     }
+
+  function contractBalance() public view returns (uint) {
+    return address(this).balance;
+}
+
+
 }
