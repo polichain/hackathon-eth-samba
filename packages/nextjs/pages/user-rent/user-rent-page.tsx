@@ -70,7 +70,7 @@ export const UserRentPage: React.FC<UserRentPageProps> = ({ setCurrentPage }: Us
   return (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="h1" component="h2" color="#3396FF">
+        <Typography variant="h1" component="h2" color="#FF6600" fontFamily={"Roboto"}>
           Your Contract:
         </Typography>
         <br />
@@ -81,21 +81,26 @@ export const UserRentPage: React.FC<UserRentPageProps> = ({ setCurrentPage }: Us
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <Typography variant="body1">{RentData.data}</Typography>
           {ContractState.data === 1 && (
-            <Button variant="outlined" onClick={handleAccept} sx={{ mt: 2 }}>
-              <Typography variant="h5" fontWeight="600">
+            <Button variant="outlined" color="success" onClick={handleAccept} sx={{ mt: 2 }}>
+              <Typography variant="h5" fontWeight="600" color={"#83E509"}>
                 Accept
               </Typography>
             </Button>
           )}
           {ContractState.data === 2 && (
-            <Button variant="outlined" onClick={handleTermination} sx={{ mt: 2 }}>
-              <Typography variant="h5" fontWeight="600">
+            <Button variant="outlined" color="error" onClick={handleTermination} sx={{ mt: 2 }}>
+              <Typography variant="h5" fontWeight="600" color={"#CF0E0E"}>
                 Termination
               </Typography>
             </Button>
           )}
-          <Button variant="outlined" onClick={() => setCurrentPage(Pagination.RoleSelector)} sx={{ mt: 2 }}>
-            <Typography variant="h5" fontWeight="600">
+          <Button
+            variant="outlined"
+            color="warning"
+            onClick={() => setCurrentPage(Pagination.RoleSelector)}
+            sx={{ mt: 2 }}
+          >
+            <Typography variant="h5" fontWeight="600" color={"#FF6600"}>
               Go Back
             </Typography>
           </Button>
