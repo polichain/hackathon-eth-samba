@@ -36,6 +36,12 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
           component="form"
           sx={{
             "& .MuiTextField-root": { m: 1, width: "25ch" },
+            background: "rgba(170, 170, 170, 1)",
+            borderRadius: "10px",
+            height: "30vh",
+            width: "30%",
+            margin: "auto",
+            textAlign: "center",
           }}
           noValidate
           autoComplete="off"
@@ -98,7 +104,6 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
             color="warning"
             //onClick={() => setCurrentPage(Pagination.RentCreate)}
             onClick={() => writeAsync()}
-
             sx={{ p: "40px 80px", fontSize: "120px", margin: "0 100px" }}
           >
             <Typography variant="h5" fontWeight="600">
