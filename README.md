@@ -1,21 +1,15 @@
-# 🏗 Scaffold-ETH 2
+# RentChain
+Welcome to our groundbreaking project, a decentralized application (dApp) designed to facilitate the creation and interaction of rental contracts through smart contracts. Leveraging the power of blockchain technology, our platform offers users a secure, transparent, and efficient way to engage in rental agreements.
 
-<h4 align="center">
-  <a href="https://docs.scaffoldeth.io">Documentation</a> |
-  <a href="https://scaffoldeth.io">Website</a>
-</h4>
+Built upon Scaffold-ETH 2 framework, our dApp brings together cutting-edge development tools and decentralized infrastructure to ensure a seamless user experience. By harnessing the capabilities of smart contracts, users can establish rental agreements with predefined terms and conditions, eliminating the need for intermediaries and enhancing trust between parties.
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
+Furthermore, our dApp has been deployed on the Scroll Sepolia network, a robust blockchain network known for its scalability and reliability. This deployment ensures that users can access our platform with confidence, knowing that their transactions are executed swiftly and securely on a decentralized network.
 
-⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
+With our dApp, we aim to revolutionize the rental industry by providing a decentralized solution that empowers users to manage their rental agreements autonomously and securely. Join us as we embark on this journey towards a future of decentralized renting.
 
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🪝 **[Custom hooks](https://docs.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
-- 🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
-- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
-- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
+[Link to scroll-etherscan](https://sepolia.scrollscan.com/address/0xBaA33BaAA82C9F6061F4d273295Ad60c568BE1DC#code)
 
-![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/b237af0c-5027-4849-a5c1-2e31495cccb1)
+Contract Address: 0xBaA33BaAA82C9F6061F4d273295Ad60c568BE1DC
 
 ## Requirements
 
@@ -27,13 +21,13 @@ Before you begin, you need to install the following tools:
 
 ## Quickstart
 
-To get started with Scaffold-ETH 2, follow the steps below:
+To run our dApp locally, follow the steps below:
 
 1. Clone this repo & install dependencies
 
 ```
-git clone https://github.com/scaffold-eth/scaffold-eth-2.git
-cd scaffold-eth-2
+git clone https://github.com/polichain/hackathon-eth-samba.git
+hackathon-eth-samba
 yarn install
 ```
 
@@ -59,22 +53,4 @@ This command deploys a test smart contract to the local network. The contract is
 yarn start
 ```
 
-Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
-
-Run smart contract test with `yarn hardhat:test`
-
-- Edit your smart contract `YourContract.sol` in `packages/hardhat/contracts`
-- Edit your frontend in `packages/nextjs/pages`
-- Edit your deployment scripts in `packages/hardhat/deploy`
-
-## Documentation
-
-Visit our [docs](https://docs.scaffoldeth.io) to learn how to start building with Scaffold-ETH 2.
-
-To know more about its features, check out our [website](https://scaffoldeth.io).
-
-## Contributing to Scaffold-ETH 2
-
-We welcome contributions to Scaffold-ETH 2!
-
-Please see [CONTRIBUTING.MD](https://github.com/scaffold-eth/scaffold-eth-2/blob/main/CONTRIBUTING.md) for more information and guidelines for contributing to Scaffold-ETH 2.
+Access the app on: `http://localhost:3000`. 
