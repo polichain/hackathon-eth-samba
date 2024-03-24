@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { Button, Container, Paper, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
+import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { Pagination } from "~~/types/pagination";
 
 interface RentCreatePageProps {
@@ -7,6 +9,21 @@ interface RentCreatePageProps {
 }
 
 export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }: RentCreatePageProps) => {
+  const [Insurance, setInsurance] = useState("");
+  const [RentAmount, setRentAmount] = useState("");
+  const [Duration, setDuration] = useState("");
+  const [RenterAddress, setRenterAddress] = useState("");
+
+  const { writeAsync, isLoading, isMining } = useScaffoldContractWrite({
+    contractName: "Rent",
+    functionName: "createNewContract",
+    args: [RenterAddress, BigInt(Insurance), BigInt(RentAmount), BigInt(Duration)],
+    blockConfirmations: 1,
+    onBlockConfirmation: txnReceipt => {
+      console.log("Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
   return (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
       <div style={{ textAlign: "center" }}>
@@ -30,6 +47,8 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
               id="renterAddr"
               label="Renter Wallet Addres"
               defaultValue="0xE891B06c6D7314736a08f379c25DC970c8bC2C1d"
+              value={RenterAddress}
+              onChange={e => setRenterAddress(e.target.value)}
             />
             <br></br>
             <TextField
@@ -37,6 +56,8 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
               color="warning"
               label="Insurance Amont"
               type="number"
+              value={Insurance}
+              onChange={e => setInsurance(e.target.value)}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -47,6 +68,8 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
               color="warning"
               label="Rent Amont"
               type="number"
+              value={RentAmount}
+              onChange={e => setRentAmount(e.target.value)}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -57,6 +80,8 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
               color="warning"
               label="Duration (months)"
               type="number"
+              value={Duration}
+              onChange={e => setDuration(e.target.value)}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -72,6 +97,8 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
             variant="outlined"
             color="warning"
             //onClick={() => setCurrentPage(Pagination.RentCreate)}
+            onClick={() => writeAsync()}
+
             sx={{ p: "40px 80px", fontSize: "120px", margin: "0 100px" }}
           >
             <Typography variant="h5" fontWeight="600">
