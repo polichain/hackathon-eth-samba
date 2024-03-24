@@ -1,1 +1,3 @@
-export { UserRentPage } from "./user-rent-page";
+import { UserRentPage } from "../../components/UserRentPage";
+
+export default UserRentPage;

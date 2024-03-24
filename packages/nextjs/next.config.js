@@ -2,6 +2,7 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
   reactStrictMode: true,
   typescript: {
     ignoreBuildErrors: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",

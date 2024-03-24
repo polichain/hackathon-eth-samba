@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
+import { AdmRentPage } from "../components/AdmRentPage";
+import { LoginPage } from "../components/LoginPage";
+import { RentCreatePage } from "../components/RentCreatePage";
+import { RoleSelectorPage } from "../components/RoleSelectorPage";
+import { UserRentPage } from "../components/UserRentPage";
 import { useAccount } from "wagmi";
-import { AdmRentPage } from "~~/pages/adm-rent";
-import { LoginPage } from "~~/pages/login";
-import { RentCreatePage } from "~~/pages/rent-create";
-import { RoleSelectorPage } from "~~/pages/role-selector";
-import { UserRentPage } from "~~/pages/user-rent";
 import { Pagination } from "~~/types/pagination";
 
 export function App() {

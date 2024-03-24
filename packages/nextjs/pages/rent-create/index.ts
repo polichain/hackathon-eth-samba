@@ -1,1 +1,3 @@
-export { RentCreatePage } from "./rent-create-page";
+import { RentCreatePage } from "../../components/RentCreatePage";
+
+export default RentCreatePage;

@@ -1,1 +1,3 @@
-export { RoleSelectorPage } from "./role-selector-page";
+import { RoleSelectorPage } from "../../components/RoleSelectorPage";
+
+export default RoleSelectorPage;

@@ -5,9 +5,261 @@
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
-  31337: {
+  534351: {
     Rent: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      address: "0xBaA33BaAA82C9F6061F4d273295Ad60c568BE1DC",
+      abi: [
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "ContractAborted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [],
+          name: "ContractCompleted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "payer",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "amount",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+          ],
+          name: "InsurancePaid",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "payer",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "amount",
+              type: "uint256",
+            },
+          ],
+          name: "RentPaid",
+          type: "event",
+        },
+        {
+          inputs: [],
+          name: "abortContract",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address payable",
+              name: "_renter",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "_insuranceAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_rentAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_definedTime",
+              type: "uint256",
+            },
+          ],
+          name: "createNewContract",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getBalance",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_user",
+              type: "address",
+            },
+          ],
+          name: "getContractState",
+          outputs: [
+            {
+              internalType: "enum Rent.ContractState",
+              name: "",
+              type: "uint8",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_user",
+              type: "address",
+            },
+          ],
+          name: "getContracts",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_renter",
+              type: "address",
+            },
+          ],
+          name: "getInsuranceAmount",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "payInsurance",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "payRent",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "rentContracts",
+          outputs: [
+            {
+              internalType: "address payable",
+              name: "renter",
+              type: "address",
+            },
+            {
+              internalType: "address payable",
+              name: "locator",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "insuranceAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "rentAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "definedTime",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "timeRemaining",
+              type: "uint256",
+            },
+            {
+              internalType: "enum Rent.ContractState",
+              name: "state",
+              type: "uint8",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "state",
+          outputs: [
+            {
+              internalType: "enum Rent.ContractState",
+              name: "",
+              type: "uint8",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+    },
+  },
+  11155111: {
+    Rent: {
+      address: "0x4bCdC42c7E14FC131b77F23d39Cc2fe0c92EA8ce",
       abi: [
         {
           anonymous: false,
