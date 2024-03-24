@@ -6,5 +6,11 @@ interface AdmContractPageProps {
 }
 
 export const AdmContractPage: React.FC<AdmContractPageProps> = ({ setCurrentPage }: AdmContractPageProps) => {
-  return <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>HELLO</div>;
+  return (
+    <div
+      style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh", fontFamily: "Roboto" }}
+    >
+      HELLO
+    </div>
+  );
 };
