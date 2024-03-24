@@ -9,7 +9,7 @@ export const UserRentPage: React.FC<UserRentPageProps> = ({ setCurrentPage }: Us
   return (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="h1" component="h2" color="#FF6600">
+        <Typography variant="h1" component="h2" color="#FF6600" fontFamily={"Roboto"}>
           Your Contract:
         </Typography>
         <br></br>

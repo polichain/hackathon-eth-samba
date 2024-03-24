@@ -25,9 +25,11 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
   });
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
+    <div
+      style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh", fontFamily: "Roboto" }}
+    >
       <div style={{ textAlign: "center" }}>
-        <Typography variant="h1" component="h2" color="#FF6600">
+        <Typography variant="h1" component="h2" color="#FF6600" fontFamily={"Roboto"}>
           Contract Info:
         </Typography>
         <br></br>

@@ -19,10 +19,8 @@ export const RoleSelectorPage: React.FC<RoleSelectorPageProps> = ({ setCurrentPa
       textAlign="center"
       fontFamily="Roboto, sans-serif" // Use a sophisticated font like Roboto
     >
-      <Typography variant="h1" component="h2" color="#FF6600">
-        {" "}
-        {/* Dark yellow color */}
-        You are:
+      <Typography variant="h1" component="h2" color="#FF6600" style={{ fontFamily: "Roboto" }}>
+        Who´s using:
       </Typography>
       <br />
       <br />
