@@ -30,18 +30,6 @@ export const AdmRentPage: React.FC<AdmRentPageProps> = ({ setCurrentPage }: AdmR
               Create Contract
             </Typography>
           </Button>
-
-          <Button
-            variant="outlined"
-            color="warning"
-            onClick={() => setCurrentPage(Pagination.AdmContract)}
-            sx={{ p: "40px 80px", fontSize: "120px", margin: "0 100px" }}
-          >
-            <Typography variant="h5" fontWeight="600" color="#FF6600">
-              Show Contracts
-            </Typography>
-          </Button>
-
           <br></br>
           <Button
             variant="outlined"
