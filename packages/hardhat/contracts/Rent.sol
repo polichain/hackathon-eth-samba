@@ -98,8 +98,8 @@ contract Rent {
 			"Only the renter or locator can abort the contract"
 		);
 
-		uint time_percentage = (rentContracts[msg.sender].definedTime * (30)) /
-			(100);
+		uint time_percentage = (rentContracts[msg.sender].definedTime * 30) /
+			100;
 		if (
 			msg.sender == rentContracts[msg.sender].renter &&
 			time_percentage >
@@ -112,10 +112,7 @@ contract Rent {
 			emit ContractAborted(msg.sender);
 		}
 
-		(bool success, ) = rentContracts[msg.sender].renter.call{
-			value: rentContracts[msg.sender].rentAmount
-		}("");
-		require(success, "transfer failed");
+		receiveInsurance(msg.sender);
 	}
 
 	function payInsurance() public payable noReentrancy {
@@ -138,7 +135,7 @@ contract Rent {
 
 	function receiveInsurance(address _renter) internal {
 		(bool success, ) = rentContracts[_renter].renter.call{
-			value: rentContracts[_renter].insuranceAmount
+			value: rentContracts[_renter].insuranceAmount*10**18
 		}("");
 		require(success, "transfer failed");
 	}
@@ -163,19 +160,19 @@ contract Rent {
 				abi.encodePacked(
 					"Locator address: ",
 					addressToString(rentContracts[msg.sender].locator),
-					"<br/>",
+					"\n",
 					"Insurance amount: ",
 					uintToString(rentContracts[msg.sender].insuranceAmount),
-					"<br/>",
+					"\n",
 					"Rent amount: ",
 					uintToString(rentContracts[msg.sender].rentAmount),
-					"<br/>",
+					"\n",
 					"Contract State: ",
 					getState(msg.sender),
-					"<br/>",
+					"\n",
 					"Defined Time: ",
 					uintToString(rentContracts[msg.sender].definedTime),
-					"<br/>",
+					"\n",
 					"Time remaining: ",
 					uintToString(rentContracts[msg.sender].timeRemaining)
 				)
@@ -194,6 +191,10 @@ contract Rent {
 
 	function getInsuranceAmount(address _renter) public view returns (uint) {
 		return rentContracts[_renter].insuranceAmount;
+	}
+
+	function getBalance() public view returns(uint){
+		return address(this).balance;
 	}
 
 	function uintToString(uint v) internal pure returns (string memory) {

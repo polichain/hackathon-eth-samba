@@ -30,7 +30,7 @@ export const UserRentPage: React.FC<UserRentPageProps> = ({ setCurrentPage }: Us
     args: [address],
   });
 
-  const { writeAsync } = useScaffoldContractWrite({
+  const { writeAsync: payInsuranceAsync } = useScaffoldContractWrite({
     contractName: "Rent",
     functionName: "payInsurance",
     value: parseEther((InsuranceAmount.data && InsuranceAmount.data.toString()) || "0"),
@@ -40,17 +40,31 @@ export const UserRentPage: React.FC<UserRentPageProps> = ({ setCurrentPage }: Us
     },
   });
 
+  const { writeAsync: abortContractAsync } = useScaffoldContractWrite({
+    contractName: "Rent",
+    functionName: "abortContract",
+    blockConfirmations: 1,
+    onBlockConfirmation: txnReceipt => {
+      console.log("Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
   const handleAccept = async () => {
     try {
-      await writeAsync();
+      await payInsuranceAsync();
       console.log("Insurance paid successfully!");
     } catch (error) {
       console.error("Error paying insurance:", error);
     }
   };
 
-  const handleTermination = () => {
-    console.log("Contract terminated");
+  const handleTermination = async () => {
+    try {
+      await abortContractAsync();
+      console.log("Contract terminated successfully!");
+    } catch (error) {
+      console.error("Error abortating contract", error);
+    }
   };
 
   return (
