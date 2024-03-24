@@ -27,7 +27,7 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
   return (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="h1" component="h2" color="#3396FF">
+        <Typography variant="h1" component="h2" color="#FF6600">
           Contract Info:
         </Typography>
         <br></br>
@@ -43,6 +43,8 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
           <div>
             <TextField
               required
+              color="warning"
+              id="renterAddr"
               label="Renter Wallet Addres"
               defaultValue="0xE891B06c6D7314736a08f379c25DC970c8bC2C1d"
               value={RenterAddress}
@@ -50,7 +52,9 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
             />
             <br></br>
             <TextField
-              label="Insurance Amount"
+              id="insurance"
+              color="warning"
+              label="Insurance Amont"
               type="number"
               value={Insurance}
               onChange={e => setInsurance(e.target.value)}
@@ -61,7 +65,8 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
             <br></br>
             <TextField
               id="rent"
-              label="Rent Amount"
+              color="warning"
+              label="Rent Amont"
               type="number"
               value={RentAmount}
               onChange={e => setRentAmount(e.target.value)}
@@ -72,6 +77,7 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
             <br></br>
             <TextField
               id="duration"
+              color="warning"
               label="Duration (months)"
               type="number"
               value={Duration}
@@ -89,7 +95,10 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Button
             variant="outlined"
+            color="warning"
+            //onClick={() => setCurrentPage(Pagination.RentCreate)}
             onClick={() => writeAsync()}
+
             sx={{ p: "40px 80px", fontSize: "120px", margin: "0 100px" }}
           >
             <Typography variant="h5" fontWeight="600">
@@ -99,6 +108,7 @@ export const RentCreatePage: React.FC<RentCreatePageProps> = ({ setCurrentPage }
 
           <Button
             variant="outlined"
+            color="warning"
             onClick={() => setCurrentPage(Pagination.AdmRent)}
             sx={{ p: "40px 80px", fontSize: "120px", margin: "0 100px" }}
           >
