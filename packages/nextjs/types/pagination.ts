@@ -4,4 +4,5 @@ export enum Pagination {
   AdmRent = "AdmRentPage",
   UserRent = "UserRentPage",
   RentCreate = "RentCreatePage",
+  AdmContract = "AdmContractPage",
 }

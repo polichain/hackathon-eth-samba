@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
+import { AdmContractPage } from "~~/pages/adm-contract";
 import { AdmRentPage } from "~~/pages/adm-rent";
 import { LoginPage } from "~~/pages/login";
 import { RentCreatePage } from "~~/pages/rent-create";
@@ -26,6 +27,7 @@ export function App() {
       {currentPage === Pagination.RoleSelector && <RoleSelectorPage setCurrentPage={setCurrentPage} />}
       {currentPage === Pagination.RentCreate && <RentCreatePage setCurrentPage={setCurrentPage} />}
       {currentPage === Pagination.UserRent && <UserRentPage setCurrentPage={setCurrentPage} />}
+      {currentPage === Pagination.AdmContract && <AdmContractPage setCurrentPage={setCurrentPage} />}
     </div>
   );
 }

@@ -9,7 +9,7 @@ export const UserRentPage: React.FC<UserRentPageProps> = ({ setCurrentPage }: Us
   return (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="h1" component="h2" color="#3396FF">
+        <Typography variant="h1" component="h2" color="#FF6600">
           Your Contract:
         </Typography>
         <br></br>
@@ -21,10 +21,11 @@ export const UserRentPage: React.FC<UserRentPageProps> = ({ setCurrentPage }: Us
           <br></br>
           <Button
             variant="outlined"
+            color="warning"
             onClick={() => setCurrentPage(Pagination.RoleSelector)}
             sx={{ p: "40px 80px", fontSize: "120px", margin: "0 100px" }}
           >
-            <Typography variant="h5" fontWeight="600">
+            <Typography variant="h5" fontWeight="600" color={"#FF6600"}>
               Go Back
             </Typography>
           </Button>

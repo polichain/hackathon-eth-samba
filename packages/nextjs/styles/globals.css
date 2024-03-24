@@ -4,8 +4,29 @@
 
 :root,
 [data-theme] {
-  background: oklch(var(--b2));
+  position: relative;
+  background-color: #0000;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%), url('fundo.jpg');
+  background-blend-mode: overlay;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
+
+[data-theme]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url('fundo.jpg'); /* Apply the background image only to the pseudo-element */
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: grayscale(100%);
+  z-index: -1; /* Ensure the pseudo-element is behind the content */
+}
+
+
 
 body {
   min-height: 100vh;
